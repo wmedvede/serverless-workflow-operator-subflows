@@ -1,0 +1,46 @@
+id: master
+version: "1.0"
+name: master
+start: doCalculations
+states:
+  - name: doCalculations
+    type: inject
+    data:
+      # In this state, we emulate that master workflow has calculated the set of required parameters by workflowB.
+      # But, for example, if master workflow is not responsible for calculating the required parameter for workflowA,
+      # then, we might set it as a required parameter for master workflow. If not, in situations when not present,
+      # the invocation of subFlow workflowA will fail, and so will the master workflow do.
+      # workflowC has no input schema, no worries about it.
+      paramB1: "Param required by workflowB produced by an internal master workflow calculation"
+    transition: callWorkers
+  - name: callWorkers
+    type: parallel
+    # shows different interaction alternatives with the subflows by configuring the actionDataFilter
+    branches:
+      - name: branchA
+        actions:
+          - name: callA
+            subFlowRef: workflowA
+            actionDataFilter:
+              # No data from workflowA will be merged into the master workflow
+              useResults: false
+      - name: branchB
+        actions:
+          - name: callB
+            subFlowRef: workflowB
+            actionDataFilter:
+              # All data form workflowB will be merged into the master workflow
+              # if no actionDataFilter is set, default value is true.
+              useResults: true
+      - name: branchC
+        actions:
+          - name: callC
+            subFlowRef: workflowC
+            actionDataFilter:
+              # Filtered merge of data from workflowC into the master workflow
+              useResults: true
+              # pick only the valueC2
+              results: ".valueC2"
+              # merge it into the state data element filterValueC2
+              toStateData: ".filteredValueC2"
+    end: true
