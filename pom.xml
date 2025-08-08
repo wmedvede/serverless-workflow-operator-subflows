@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.acme</groupId>
     <artifactId>serverless-workflow-operator-subflows</artifactId>
@@ -11,12 +12,20 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>com.redhat.quarkus.platform</quarkus.platform.group-id>
+        <!-- To work locally with OSL 1.35.0 use 3.8.6.redhat-00004 -->
         <quarkus.platform.version>3.15.4.redhat-00001</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.3</surefire-plugin.version>
+        <!-- To work locally with OSL 1.35.0 use 9.102.0.redhat-00005 -->
         <kie.version>9.103.0.redhat-00004</kie.version>
-        <kie.tooling.version>1.36.0</kie.tooling.version>
     </properties>
+
+    <!--
+    NOTE:
+    This pom.xml file is adjusted to generate and execute the workflow locally emulating the same behavior as the
+    sonataflow.org/profile = dev. This is useful for doing mvn quarkus:dev, etc. However, we generate the image with
+    the builder, it only picks the resources, but not this pom.xml or it dependencies at all.
+    -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -98,7 +107,7 @@
         <dependency>
             <groupId>org.apache.kie.sonataflow</groupId>
             <artifactId>sonataflow-quarkus-devui</artifactId>
-            <version>9.103.0.redhat-00004</version>
+            <version>${kie.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -149,7 +158,8 @@
                 </executions>
                 <configuration>
                     <systemPropertyVariables>
-                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner
+                        </native.image.path>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>

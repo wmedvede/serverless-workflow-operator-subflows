@@ -1,3 +1,4 @@
+# To build with OSL 1.35.0 use -> registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel8:1.35.0 AS builder
 FROM registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel8:1.36.0 AS builder
 
 # variables that can be overridden by the builder
@@ -8,7 +9,7 @@ ARG QUARKUS_ADD_EXTENSION_ARGS
 # Additional java/mvn arguments to pass to the builder
 ARG MAVEN_ARGS_APPEND
 
-# Copy from build context to skeleton resources project
+# Copy from the docker build context to the skeleton project resources directory in the builder image.
 COPY --chown=1001 . ./resources
 
 RUN /home/kogito/launch/build-app.sh ./resources
