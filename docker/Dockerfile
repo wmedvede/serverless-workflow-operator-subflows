@@ -1,4 +1,3 @@
-# To build with OSL 1.35.0 use -> registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel8:1.35.0 AS builder
 FROM registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel8:1.36.0 AS builder
 
 # variables that can be overridden by the builder

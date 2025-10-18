@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Example local execution of the image in the simplest form and only to run current example.
+
+REGISTRY_USER=$USER
+REGISTRY=quay.io
+TAG=1.0-1.36.0-00
+
+IMG=$REGISTRY/$USER/serverless-workflow-operator-subflows:$TAG
+
+KOGITO_SERVICE_URL=http://localhost:8080
+KOGITO_EVENTS_PROCESSDEFINITIONS_ENABLED=false
+KOGITO_EVENTS_PROCESSINSTANCES_ENABLED=false
+
+docker run --rm -it -p 8080:8080 \
+     --env KOGITO_SERVICE_URL=$KOGITO_SERVICE_URL \
+     --env KOGITO_EVENTS_PROCESSDEFINITIONS_ENABLED=$KOGITO_EVENTS_PROCESSDEFINITIONS_ENABLED \
+     --env KOGITO_EVENTS_PROCESSINSTANCES_ENABLED=$KOGITO_EVENTS_PROCESSINSTANCES_ENABLED \
+    $IMG
+

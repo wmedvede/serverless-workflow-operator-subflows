@@ -19,7 +19,7 @@ metadata:
 spec:
   podTemplate:
     container:
-      image: quay.io/wmedvede/serverless-workflow-operator-subflows:1.0
+      image: quay.io/wmedvede/serverless-workflow-operator-subflows:1.0-1.36.0-00
   flow:
     start:
       stateName: doCalculations
@@ -67,5 +67,12 @@ spec:
       name: callWorkers
       numCompleted: 0
       type: parallel
-
+  resources:
+    configMaps:
+    - configMap:
+        name: 01-master-resources-schemas
+      workflowPath: schemas
+    - configMap:
+        name: 02-master-resources-subflows
+      workflowPath: subflows
 
