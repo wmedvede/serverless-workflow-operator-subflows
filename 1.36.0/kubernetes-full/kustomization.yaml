@@ -1,6 +1,0 @@
-resources:
-  - 01-configmap_master-props.yaml
-  - 02-configmap_01-master-resources-schemas.yaml
-  - 03-configmap_02-master-resources-subflows.yaml
-  - 04-sonataflow_master.yaml
-

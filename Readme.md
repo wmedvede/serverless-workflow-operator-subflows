@@ -11,7 +11,15 @@ General comments:
 * Sometimes, the `master` workflow can adjust its own data input schema to ensure required data by a subflow is present when the `master` starts.
 * If the data input schema (if present) for a subflow is not validated when it's called, then, the subflow will produce a validation error, that will make the `master` workflow also fail at the given invocation point. 
 
+## Select the example branch:
 
+Select the branch according to the target OSL version
+
+For example, to build and run the example with OSL 1.36.0 do:
+
+````
+git check checkout osl-1.36.0
+````
 
 ## To execute the example in standalone mode do:
 
@@ -46,11 +54,11 @@ You will see an output like this:
 Make sure you adjust the REGISTRY_USER and REGISTRY variables if needed, see the scripts.
 
 ````
-./build-image-1.36.0.sh
+./scripts/build-image.sh
 ````
 
 ````
-./start-application-image-1.36.0.sh
+./scripts/start-application-image.sh
 ````
 
 In a separate terminal do:
@@ -71,7 +79,7 @@ curl --location 'http://localhost:8080/master' \
 ````
 podTemplate:
   container:
-    image: your-registry/your-user/serverless-workflow-operator-subflows:1.0
+    image: your-registry/your-user/serverless-workflow-operator-subflows:<TAG>
 ````
 3. Create the `subflows-example`
 ````
@@ -79,7 +87,7 @@ oc create namespace subflows-example
 ````
 4. Deploy the workflow and give it some time to start, etc.
 ````
-oc kustomize 1.36.0/kubernetes | oc apply -f - -n subflows-example
+oc kustomize kubernetes | oc apply -f - -n subflows-example
 ````
 
 5. Expose the service for local testing and execute (never in production OCP)

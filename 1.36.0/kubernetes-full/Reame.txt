@@ -1,5 +1,0 @@
-Contains not only the SonataFlow CR for the master WF, but also, the resources for the sub workflows definitions,
-data input schemas, etc.
-See how the SonataFlow CR for the master WF refers these resources.
-
-This variant must be used when the WF is deployed with the dev and preview profiles, and is currently not mandatory for gitops profile.

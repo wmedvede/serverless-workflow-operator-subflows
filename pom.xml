@@ -5,19 +5,18 @@
     <groupId>org.acme</groupId>
     <artifactId>serverless-workflow-operator-subflows</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
     <properties>
         <compiler-plugin.version>3.14.0</compiler-plugin.version>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.group-id>com.redhat.quarkus.platform</quarkus.platform.group-id>
-        <!-- To work locally with OSL 1.35.0 use 3.8.6.redhat-00004 -->
-        <quarkus.platform.version>3.15.4.redhat-00001</quarkus.platform.version>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.20.3</quarkus.platform.version>
         <skipITs>true</skipITs>
-        <surefire-plugin.version>3.5.3</surefire-plugin.version>
-        <!-- To work locally with OSL 1.35.0 use 9.102.0.redhat-00005 -->
-        <kie.version>9.103.0.redhat-00004</kie.version>
+        <surefire-plugin.version>3.5.2</surefire-plugin.version>
+        <kie.version>999-SNAPSHOT</kie.version>
     </properties>
 
     <!--
@@ -44,6 +43,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -110,6 +110,7 @@
             <version>${kie.version}</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -158,8 +159,7 @@
                 </executions>
                 <configuration>
                     <systemPropertyVariables>
-                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner
-                        </native.image.path>
+                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
@@ -167,6 +167,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>native</id>
@@ -176,26 +177,32 @@
                 </property>
             </activation>
             <properties>
+                <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
                 <skipITs>false</skipITs>
                 <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
         </profile>
     </profiles>
+
     <repositories>
-
         <repository>
-            <id>redhat-ga-public-repository</id>
-            <name>RedHat GA Public Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
+            <id>apache-public-repository-group</id>
+            <name>Apache Public Repository Group</name>
+            <url>https://repository.apache.org/content/groups/public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
         </repository>
-
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>redhat-ga-public-repository</id>
-            <name>RedHat GA Public Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
+            <id>apache-public-repository-group</id>
+            <name>Apache Public Repository Group</name>
+            <url>https://repository.apache.org/content/groups/public/</url>
             <layout>default</layout>
             <releases>
                 <enabled>true</enabled>
@@ -205,5 +212,4 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 </project>
